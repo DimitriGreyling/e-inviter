@@ -12,7 +12,7 @@ class DashboardScreen extends StatelessWidget {
     final textTheme = theme.textTheme;
 
     return Scaffold(
-      backgroundColor: colorScheme.background,
+      backgroundColor: colorScheme.surface,
       body: SafeArea(
         child: Column(
           children: [
@@ -197,6 +197,7 @@ class DashboardScreen extends StatelessWidget {
             ),
             // Cards (horizontal scroll) - fit in available space
             Expanded(
+              flex: 2,
               child: ListView(
                 scrollDirection: Axis.horizontal,
                 padding:
@@ -334,29 +335,7 @@ class DashboardScreen extends StatelessWidget {
               ),
             ),
             // Navigation bar
-            NavigationBar(
-              backgroundColor: colorScheme.surface,
-              indicatorColor: colorScheme.primary.withOpacity(0.1),
-              selectedIndex: 0,
-              destinations: const [
-                NavigationDestination(
-                  icon: Icon(Icons.dashboard),
-                  label: 'Home',
-                ),
-                NavigationDestination(
-                  icon: Icon(Icons.contacts),
-                  label: 'Contacts',
-                ),
-                NavigationDestination(
-                  icon: Icon(Icons.event),
-                  label: 'Calendar',
-                ),
-                NavigationDestination(
-                  icon: Icon(Icons.person),
-                  label: 'Profile',
-                ),
-              ],
-            ),
+            _buildNavigationBar(colorScheme),
           ],
         ),
       ),
@@ -365,6 +344,56 @@ class DashboardScreen extends StatelessWidget {
         onPressed: () {},
         child: const Icon(Icons.add),
       ),
+    );
+  }
+
+  Widget _buildNavigationBar(ColorScheme colorScheme) {
+    // return NavigationBarTheme(
+    //   data: NavigationBarThemeData(
+    //     indicatorColor: Colors.transparent, // or your theme
+    //     labelTextStyle: MaterialStateProperty.all(
+    //       Theme.of(context).textTheme.labelSmall,
+    //     ),
+    //     iconTheme: MaterialStateProperty.resolveWith<IconThemeData>((states) {
+    //       if (states.contains(MaterialState.selected)) {
+    //         return IconThemeData(color: Theme.of(context).colorScheme.primary);
+    //       }
+    //       return IconThemeData(
+    //           color: Theme.of(context).colorScheme.onSurfaceVariant);
+    //     }),
+    //   ),
+    //   child: NavigationBar(
+    //     selectedIndex: 0,
+    //     destinations: const [
+    //       NavigationDestination(icon: Icon(Icons.dashboard), label: 'Home'),
+    //       NavigationDestination(icon: Icon(Icons.contacts), label: 'Contacts'),
+    //       NavigationDestination(icon: Icon(Icons.event), label: 'Calendar'),
+    //       NavigationDestination(icon: Icon(Icons.person), label: 'Profile'),
+    //     ],
+    //   ),
+    // );
+    return NavigationBar(
+      backgroundColor: colorScheme.surface,
+      indicatorColor: colorScheme.primary.withOpacity(0.1),
+      selectedIndex: 0,
+      destinations: const [
+        NavigationDestination(
+          icon: Icon(Icons.dashboard),
+          label: 'Home',
+        ),
+        NavigationDestination(
+          icon: Icon(Icons.contacts),
+          label: 'Contacts',
+        ),
+        NavigationDestination(
+          icon: Icon(Icons.event),
+          label: 'Calendar',
+        ),
+        NavigationDestination(
+          icon: Icon(Icons.person),
+          label: 'Profile',
+        ),
+      ],
     );
   }
 }

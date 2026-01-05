@@ -28,7 +28,7 @@ class EventCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: 260,
+      width: 300,
       decoration: BoxDecoration(
         color: colorScheme.surface,
         borderRadius: BorderRadius.circular(16),
@@ -51,10 +51,37 @@ class EventCard extends StatelessWidget {
                     const BorderRadius.vertical(top: Radius.circular(16)),
                 child: Image.network(
                   image,
-                  height: 100,
-                  width: double.infinity,
                   fit: BoxFit.cover,
+                  height: 150,
+                  width: double.infinity,
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return Container(
+                      color: colorScheme.primary.withOpacity(0.1),
+                      child: Center(
+                        child: CircularProgressIndicator(
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                              colorScheme.primary),
+                          value: loadingProgress.expectedTotalBytes != null
+                              ? loadingProgress.cumulativeBytesLoaded /
+                                  (loadingProgress.expectedTotalBytes ?? 1)
+                              : null,
+                        ),
+                      ),
+                    );
+                  },
+                  errorBuilder: (context, error, stackTrace) => Container(
+                    color: colorScheme.primary.withOpacity(0.1),
+                    child: Icon(Icons.person, color: colorScheme.onSurface),
+                  ),
                 ),
+
+                // Image.network(
+                //   image,
+                //   height: 100,
+                //   width: double.infinity,
+                //   fit: BoxFit.cover,
+                // ),
               ),
               Positioned(
                 top: 8,

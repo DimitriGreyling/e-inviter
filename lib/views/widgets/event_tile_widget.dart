@@ -49,7 +49,7 @@ class EventTile extends StatelessWidget {
             borderRadius: BorderRadius.circular(12),
             border: Border.all(color: colorScheme.primary.withOpacity(0.5)),
           ),
-          child: Column(
+          child: const Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Text('OCT'),
