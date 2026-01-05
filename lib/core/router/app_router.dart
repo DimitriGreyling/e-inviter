@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 
-import 'package:inviter/features/welcome/views/welcome_view.dart';
-import 'package:inviter/features/home/views/home_view.dart';
-import 'package:inviter/features/profile/views/profile_view.dart';
+import '../../../views/welcome_view.dart';
+import 'package:inviter/views/home_view.dart';
+import 'package:inviter/views/profile_view.dart';
 
 final appRouter = GoRouter(
   initialLocation: '/',
