@@ -1,15 +1,43 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-class WelcomeView extends StatelessWidget {
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+
+class WelcomeView extends ConsumerStatefulWidget {
   const WelcomeView({super.key});
 
+  @override
+  ConsumerState<WelcomeView> createState() => _WelcomeViewState();
+}
+
+class _WelcomeViewState extends ConsumerState<WelcomeView> {
+    final PageController _pageController = PageController();
+    int _currentPage = 0;
+
+    @override
+    void initState() {
+      super.initState();
+      _pageController.addListener(() {
+        final page = _pageController.page?.round() ?? 0;
+        if (page != _currentPage) {
+          setState(() {
+            _currentPage = page;
+          });
+        }
+      });
+    }
+
+    @override
+    void dispose() {
+      _pageController.dispose();
+      super.dispose();
+    }
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final colorScheme = theme.colorScheme;
     final backgroundColor = colorScheme.background;
-    // final cardColor = colorScheme.surface;
+    final cardColor = colorScheme.surface;
     final primaryColor = colorScheme.primary;
     final bool isDark = theme.brightness == Brightness.dark;
 
@@ -58,6 +86,7 @@ class WelcomeView extends StatelessWidget {
                 // Carousel
                 Expanded(
                   child: PageView(
+                    controller: _pageController,
                     children: const [
                       _WelcomeSlide(
                         imageUrl:
@@ -89,28 +118,22 @@ class WelcomeView extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(vertical: 8),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                          height: 8,
-                          width: 32,
-                          decoration: BoxDecoration(
-                              color: primaryColor,
-                              borderRadius: BorderRadius.circular(8))),
-                      const SizedBox(width: 8),
-                      Container(
-                          height: 8,
-                          width: 8,
-                          decoration: BoxDecoration(
-                              color: colorScheme.secondaryContainer,
-                              borderRadius: BorderRadius.circular(8))),
-                      const SizedBox(width: 8),
-                      Container(
-                          height: 8,
-                          width: 8,
-                          decoration: BoxDecoration(
-                              color: colorScheme.secondaryContainer,
-                              borderRadius: BorderRadius.circular(8))),
-                    ],
+                    children: List.generate(3, (index) {
+                      final isActive = _currentPage == index;
+                      return Row(
+                        children: [
+                          Container(
+                            height: 8,
+                            width: isActive ? 32 : 8,
+                            decoration: BoxDecoration(
+                              color: isActive ? primaryColor : colorScheme.secondaryContainer,
+                              borderRadius: BorderRadius.circular(8),
+                            ),
+                          ),
+                          if (index < 2) const SizedBox(width: 8),
+                        ],
+                      );
+                    }),
                   ),
                 ),
                 // Action Area
