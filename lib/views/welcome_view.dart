@@ -6,15 +6,16 @@ class WelcomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final backgroundColor =
-        isDark ? const Color(0xFF191022) : const Color(0xFFF7F6F8);
-    final cardColor = isDark ? const Color(0xFF191022) : Colors.white;
-    final primaryColor = const Color(0xFF7f13ec);
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final backgroundColor = colorScheme.background;
+    // final cardColor = colorScheme.surface;
+    final primaryColor = colorScheme.primary;
+    final bool isDark = theme.brightness == Brightness.dark;
 
     // SystemChrome.setSystemUIOverlayStyle(
     //   SystemUiOverlayStyle(
-    //     statusBarColor: Colors.white, 
+    //     statusBarColor: Colors.white,
     //   ),
     // );
 
@@ -23,42 +24,9 @@ class WelcomeView extends StatelessWidget {
       body: SafeArea(
         child: Center(
           child: Container(
-            // decoration: BoxDecoration(
-            //   color: backgroundColor,
-            //   borderRadius: BorderRadius.circular(32),
-            //   boxShadow: [
-            //     BoxShadow(
-            //       color: Colors.black.withOpacity(0.2),
-            //       blurRadius: 32,
-            //       spreadRadius: 2,
-            //     ),
-            //   ],
-            //   border: Border.all(color: Colors.black.withOpacity(0.05), width: 2),
-            // ),
             padding: const EdgeInsets.symmetric(horizontal: 16),
             child: Column(
               children: [
-                // Status Bar
-                // Padding(
-                //   padding:
-                //       const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-                //   child: Row(
-                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //     children: [
-                //       const Text('9:41',
-                //           style: TextStyle(fontWeight: FontWeight.w600)),
-                //       Row(
-                //         children: const [
-                //           Icon(Icons.signal_cellular_alt, size: 16),
-                //           SizedBox(width: 4),
-                //           Icon(Icons.wifi, size: 16),
-                //           SizedBox(width: 4),
-                //           Icon(Icons.battery_full, size: 16),
-                //         ],
-                //       ),
-                //     ],
-                //   ),
-                // ),
                 // Header / Logo
                 Padding(
                   padding: const EdgeInsets.only(top: 16, bottom: 8),
@@ -72,15 +40,14 @@ class WelcomeView extends StatelessWidget {
                           color: primaryColor.withOpacity(0.2),
                           borderRadius: BorderRadius.circular(8),
                         ),
-                        child: const Icon(Icons.drafts, color: Color(0xFF7f13ec)),
+                        child: Icon(Icons.drafts, color: primaryColor),
                       ),
                       const SizedBox(width: 8),
                       Text(
                         'E-Invitations',
-                        style: TextStyle(
-                          color: isDark ? Colors.white : Colors.black,
+                        style: theme.textTheme.titleLarge?.copyWith(
+                          color: colorScheme.onBackground,
                           fontWeight: FontWeight.bold,
-                          fontSize: 20,
                           fontFamily: 'Plus Jakarta Sans',
                           letterSpacing: -0.5,
                         ),
@@ -91,7 +58,7 @@ class WelcomeView extends StatelessWidget {
                 // Carousel
                 Expanded(
                   child: PageView(
-                    children: [
+                    children: const [
                       _WelcomeSlide(
                         imageUrl:
                             'https://lh3.googleusercontent.com/aida-public/AB6AXuApnKx7zfep4nusHyOpW6gUkZTdDfQgnFWYrg_-iDj62ih2DivNfz0OAySxU7TCtX21tsSNv_cVT-404ngeWuliIhFrJXa6h2TX-oWcAhlnb23HBYIAru8-4qKo_bUPShQ9lOMJVcZMjeehJFjx8buOIqVUhjTZMbVaF5mdwTYvovgU48AnQCVPAb8v7iic2R9HB7VU8C882HckLFi3E0QQ-Tyb_G0tWu4uqRJ1-fLmcntfDWbW4HVASeDQzeCUcZTlv9PDEGjOl24',
@@ -134,14 +101,14 @@ class WelcomeView extends StatelessWidget {
                           height: 8,
                           width: 8,
                           decoration: BoxDecoration(
-                              color: isDark ? Colors.grey[700] : Colors.grey[300],
+                              color: colorScheme.secondaryContainer,
                               borderRadius: BorderRadius.circular(8))),
                       const SizedBox(width: 8),
                       Container(
                           height: 8,
                           width: 8,
                           decoration: BoxDecoration(
-                              color: isDark ? Colors.grey[700] : Colors.grey[300],
+                              color: colorScheme.secondaryContainer,
                               borderRadius: BorderRadius.circular(8))),
                     ],
                   ),
@@ -163,9 +130,10 @@ class WelcomeView extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(20)),
                             elevation: 4,
                           ),
-                          child: const Text('Create Account',
-                              style: TextStyle(
-                                  fontSize: 16, fontWeight: FontWeight.bold)),
+                          child: Text('Create Account',
+                              style: theme.textTheme.labelLarge?.copyWith(
+                                  color: colorScheme.onPrimary,
+                                  fontWeight: FontWeight.bold)),
                         ),
                       ),
                       const SizedBox(height: 12),
@@ -183,10 +151,9 @@ class WelcomeView extends StatelessWidget {
                                     : Colors.grey[200]!),
                           ),
                           child: Text('Sign In',
-                              style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.bold,
-                                  color: isDark ? Colors.white : Colors.black)),
+                              style: theme.textTheme.labelLarge?.copyWith(
+                                  color: colorScheme.onSurface,
+                                  fontWeight: FontWeight.bold)),
                         ),
                       ),
                       const SizedBox(height: 16),
@@ -200,11 +167,8 @@ class WelcomeView extends StatelessWidget {
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 8),
                             child: Text('Or continue with',
-                                style: TextStyle(
-                                    fontSize: 12,
-                                    color: isDark
-                                        ? Colors.grey[400]
-                                        : Colors.grey[500],
+                                style: theme.textTheme.bodySmall?.copyWith(
+                                    color: colorScheme.onSurfaceVariant,
                                     fontWeight: FontWeight.w500)),
                           ),
                           Expanded(
@@ -234,9 +198,8 @@ class WelcomeView extends StatelessWidget {
                       Text(
                         'By continuing, you agree to our Terms of Service and Privacy Policy.',
                         textAlign: TextAlign.center,
-                        style: TextStyle(
-                            fontSize: 10,
-                            color: isDark ? Colors.grey[400] : Colors.grey[400]),
+                        style: theme.textTheme.bodySmall?.copyWith(
+                            color: colorScheme.onSurfaceVariant, fontSize: 10),
                       ),
                     ],
                   ),
@@ -248,7 +211,7 @@ class WelcomeView extends StatelessWidget {
                     height: 6,
                     width: 120,
                     decoration: BoxDecoration(
-                      color: isDark ? Colors.grey[700] : Colors.grey[300],
+                      color: colorScheme.secondaryContainer,
                       borderRadius: BorderRadius.circular(8),
                     ),
                   ),
@@ -277,10 +240,10 @@ class _WelcomeSlide extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
-    final backgroundColor =
-        isDark ? const Color(0xFF191022) : const Color(0xFFF7F6F8);
-    final primaryColor = const Color(0xFF7f13ec);
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
+    final backgroundColor = colorScheme.background;
+    final primaryColor = colorScheme.primary;
     return Column(
       children: [
         Stack(
@@ -296,7 +259,8 @@ class _WelcomeSlide extends StatelessWidget {
                 ),
                 boxShadow: [
                   BoxShadow(
-                      color: Colors.black.withOpacity(0.15), blurRadius: 16)
+                      color: colorScheme.shadow.withOpacity(0.15),
+                      blurRadius: 16)
                 ],
               ),
             ),
@@ -334,8 +298,8 @@ class _WelcomeSlide extends StatelessWidget {
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Text(label!,
-                      style: const TextStyle(
-                          color: Colors.white,
+                      style: theme.textTheme.labelSmall?.copyWith(
+                          color: colorScheme.onPrimary,
                           fontWeight: FontWeight.bold,
                           fontSize: 12)),
                 ),
@@ -346,9 +310,8 @@ class _WelcomeSlide extends StatelessWidget {
         Text(
           title,
           textAlign: TextAlign.center,
-          style: TextStyle(
-            color: isDark ? Colors.white : Colors.black,
-            fontSize: 24,
+          style: theme.textTheme.titleLarge?.copyWith(
+            color: colorScheme.onBackground,
             fontWeight: FontWeight.bold,
             fontFamily: 'Plus Jakarta Sans',
           ),
@@ -357,8 +320,8 @@ class _WelcomeSlide extends StatelessWidget {
         Text(
           description,
           textAlign: TextAlign.center,
-          style: TextStyle(
-            color: isDark ? Colors.grey[400] : Colors.grey[500],
+          style: theme.textTheme.bodyMedium?.copyWith(
+            color: colorScheme.onSurfaceVariant,
             fontSize: 14,
             fontFamily: 'Noto Sans',
           ),
@@ -374,17 +337,17 @@ class _SocialIconButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isDark = Theme.of(context).brightness == Brightness.dark;
+    final theme = Theme.of(context);
+    final colorScheme = theme.colorScheme;
     return Container(
       width: 48,
       height: 48,
       decoration: BoxDecoration(
-        color: isDark ? const Color(0xFF191022) : Colors.white,
-        border:
-            Border.all(color: isDark ? Colors.grey[700]! : Colors.grey[200]!),
+        color: colorScheme.surface,
+        border: Border.all(color: colorScheme.outline),
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
-          BoxShadow(color: Colors.black.withOpacity(0.05), blurRadius: 4)
+          BoxShadow(color: colorScheme.shadow.withOpacity(0.05), blurRadius: 4)
         ],
       ),
       child: Center(child: icon),
