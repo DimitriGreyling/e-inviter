@@ -3,20 +3,22 @@ import 'package:flutter/material.dart';
 class AppTheme {
   static ThemeData lightTheme = ThemeData(
     brightness: Brightness.light,
-    colorScheme: ColorScheme.light(
-      primary: const Color(0xFF7f13ec),
-      background: const Color(0xFFF7F6F8),
+    colorScheme: const ColorScheme.light(
+      primary: Color(0xFF64B5F6),
       surface: Colors.white,
       onPrimary: Colors.white,
-      onBackground: Colors.black,
+      outline: Color(0xFF9CA3AF),
       onSurface: Colors.black,
     ),
     scaffoldBackgroundColor: const Color(0xFFF7F6F8),
     fontFamily: 'Noto Sans',
     textTheme: const TextTheme(
-      displayLarge: TextStyle(fontFamily: 'Plus Jakarta Sans', fontWeight: FontWeight.bold),
-      displayMedium: TextStyle(fontFamily: 'Plus Jakarta Sans', fontWeight: FontWeight.bold),
-      displaySmall: TextStyle(fontFamily: 'Plus Jakarta Sans', fontWeight: FontWeight.bold),
+      displayLarge: TextStyle(
+          fontFamily: 'Plus Jakarta Sans', fontWeight: FontWeight.bold),
+      displayMedium: TextStyle(
+          fontFamily: 'Plus Jakarta Sans', fontWeight: FontWeight.bold),
+      displaySmall: TextStyle(
+          fontFamily: 'Plus Jakarta Sans', fontWeight: FontWeight.bold),
       bodyLarge: TextStyle(fontFamily: 'Noto Sans'),
       bodyMedium: TextStyle(fontFamily: 'Noto Sans'),
       bodySmall: TextStyle(fontFamily: 'Noto Sans'),
@@ -61,9 +63,12 @@ class AppTheme {
     scaffoldBackgroundColor: const Color(0xFF191022),
     fontFamily: 'Noto Sans',
     textTheme: const TextTheme(
-      displayLarge: TextStyle(fontFamily: 'Plus Jakarta Sans', fontWeight: FontWeight.bold),
-      displayMedium: TextStyle(fontFamily: 'Plus Jakarta Sans', fontWeight: FontWeight.bold),
-      displaySmall: TextStyle(fontFamily: 'Plus Jakarta Sans', fontWeight: FontWeight.bold),
+      displayLarge: TextStyle(
+          fontFamily: 'Plus Jakarta Sans', fontWeight: FontWeight.bold),
+      displayMedium: TextStyle(
+          fontFamily: 'Plus Jakarta Sans', fontWeight: FontWeight.bold),
+      displaySmall: TextStyle(
+          fontFamily: 'Plus Jakarta Sans', fontWeight: FontWeight.bold),
       bodyLarge: TextStyle(fontFamily: 'Noto Sans'),
       bodyMedium: TextStyle(fontFamily: 'Noto Sans'),
       bodySmall: TextStyle(fontFamily: 'Noto Sans'),

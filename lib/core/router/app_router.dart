@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:inviter/views/dashboard_view.dart';
 
 import '../../../views/welcome_view.dart';
 import 'package:inviter/views/home_view.dart';
@@ -29,7 +30,7 @@ final appRouter = GoRouter(
     GoRoute(
       path: '/home',
       name: 'home',
-      builder: (context, state) => const HomeView(),
+      builder: (context, state) => const DashboardScreen(),
     ),
     GoRoute(
       path: '/profile/:id',

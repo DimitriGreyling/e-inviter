@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:go_router/go_router.dart';
 
 class WelcomeView extends ConsumerStatefulWidget {
   const WelcomeView({super.key});
@@ -11,27 +12,28 @@ class WelcomeView extends ConsumerStatefulWidget {
 }
 
 class _WelcomeViewState extends ConsumerState<WelcomeView> {
-    final PageController _pageController = PageController();
-    int _currentPage = 0;
+  final PageController _pageController = PageController();
+  int _currentPage = 0;
 
-    @override
-    void initState() {
-      super.initState();
-      _pageController.addListener(() {
-        final page = _pageController.page?.round() ?? 0;
-        if (page != _currentPage) {
-          setState(() {
-            _currentPage = page;
-          });
-        }
-      });
-    }
+  @override
+  void initState() {
+    super.initState();
+    _pageController.addListener(() {
+      final page = _pageController.page?.round() ?? 0;
+      if (page != _currentPage) {
+        setState(() {
+          _currentPage = page;
+        });
+      }
+    });
+  }
 
-    @override
-    void dispose() {
-      _pageController.dispose();
-      super.dispose();
-    }
+  @override
+  void dispose() {
+    _pageController.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
@@ -41,11 +43,12 @@ class _WelcomeViewState extends ConsumerState<WelcomeView> {
     final primaryColor = colorScheme.primary;
     final bool isDark = theme.brightness == Brightness.dark;
 
-    // SystemChrome.setSystemUIOverlayStyle(
-    //   SystemUiOverlayStyle(
-    //     statusBarColor: Colors.white,
-    //   ),
-    // );
+    SystemChrome.setSystemUIOverlayStyle(
+      SystemUiOverlayStyle(
+        statusBarColor: backgroundColor,
+        statusBarIconBrightness: isDark ? Brightness.light : Brightness.dark,
+      ),
+    );
 
     return Scaffold(
       backgroundColor: backgroundColor,
@@ -102,6 +105,7 @@ class _WelcomeViewState extends ConsumerState<WelcomeView> {
                         title: 'Track RSVPs instantly',
                         description:
                             'Know exactly who is coming in real-time with our smart tracking dashboard.',
+                        isDarkImage: false,
                       ),
                       _WelcomeSlide(
                         imageUrl:
@@ -126,7 +130,8 @@ class _WelcomeViewState extends ConsumerState<WelcomeView> {
                             height: 8,
                             width: isActive ? 32 : 8,
                             decoration: BoxDecoration(
-                              color: isActive ? primaryColor : colorScheme.secondaryContainer,
+                              color:
+                                  isActive ? primaryColor : colorScheme.outline,
                               borderRadius: BorderRadius.circular(8),
                             ),
                           ),
@@ -164,14 +169,16 @@ class _WelcomeViewState extends ConsumerState<WelcomeView> {
                         width: double.infinity,
                         height: 56,
                         child: OutlinedButton(
-                          onPressed: () {},
+                          onPressed: () {
+                            context.go('/home');
+                          },
                           style: OutlinedButton.styleFrom(
                             shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.circular(20)),
                             side: BorderSide(
                                 color: isDark
                                     ? Colors.grey[700]!
-                                    : Colors.grey[200]!),
+                                    : Colors.grey[300]!),
                           ),
                           child: Text('Sign In',
                               style: theme.textTheme.labelLarge?.copyWith(
@@ -186,7 +193,7 @@ class _WelcomeViewState extends ConsumerState<WelcomeView> {
                               child: Divider(
                                   color: isDark
                                       ? Colors.grey[800]
-                                      : Colors.grey[200])),
+                                      : Colors.grey[300])),
                           Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 8),
                             child: Text('Or continue with',
@@ -198,7 +205,7 @@ class _WelcomeViewState extends ConsumerState<WelcomeView> {
                               child: Divider(
                                   color: isDark
                                       ? Colors.grey[800]
-                                      : Colors.grey[200])),
+                                      : Colors.grey[300])),
                         ],
                       ),
                       const SizedBox(height: 16),
@@ -206,8 +213,8 @@ class _WelcomeViewState extends ConsumerState<WelcomeView> {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           _SocialIconButton(
-                            icon: Image.network(
-                                'https://lh3.googleusercontent.com/aida-public/AB6AXuCrEeNinqOpA49LN9PxdK1IPfIM7o8lugWH-YqUPIkkMTHDuTfEMLjX9KvFuvRM5-mPYlE6JxU1NioZNl8I2r_4M3Gj_PRaX844f7uJEzdCqj-AemwXSIslLBAo6CfTh3tTNXgFQPIynoqOVt_Ugrj8W9HUz4jBSrDdQwMefhQRiVkoOY2pmM4ijRzbMNLhm2TLswzlU5CIH4oxn1HvuRdfZjDClqWe7_UDg6rOhJfpCSk_2-HNVx192kK4fF4yon8gfYVsQHFKnVo'),
+                            icon: Image.asset('assets/google-logo.png',
+                                width: 24, height: 24),
                           ),
                           const SizedBox(width: 24),
                           _SocialIconButton(
@@ -227,18 +234,6 @@ class _WelcomeViewState extends ConsumerState<WelcomeView> {
                     ],
                   ),
                 ),
-                // Bottom Navigation Indicator
-                Padding(
-                  padding: const EdgeInsets.only(bottom: 8),
-                  child: Container(
-                    height: 6,
-                    width: 120,
-                    decoration: BoxDecoration(
-                      color: colorScheme.secondaryContainer,
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
-                ),
               ],
             ),
           ),
@@ -253,12 +248,14 @@ class _WelcomeSlide extends StatelessWidget {
   final String? label;
   final String title;
   final String description;
+  final bool isDarkImage;
 
   const _WelcomeSlide({
     required this.imageUrl,
     this.label,
     required this.title,
     required this.description,
+    this.isDarkImage = true,
   });
 
   @override
@@ -267,6 +264,7 @@ class _WelcomeSlide extends StatelessWidget {
     final colorScheme = theme.colorScheme;
     final backgroundColor = colorScheme.background;
     final primaryColor = colorScheme.primary;
+
     return Column(
       children: [
         Stack(
@@ -276,15 +274,31 @@ class _WelcomeSlide extends StatelessWidget {
               height: 320,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(24),
-                image: DecorationImage(
-                  image: NetworkImage(imageUrl),
-                  fit: BoxFit.cover,
-                ),
                 boxShadow: [
                   BoxShadow(
                       color: colorScheme.shadow.withOpacity(0.15),
                       blurRadius: 16)
                 ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(24),
+                child: Image.network(
+                  imageUrl,
+                  fit: BoxFit.cover,
+                  loadingBuilder: (context, child, loadingProgress) {
+                    if (loadingProgress == null) return child;
+                    return Center(
+                      child: CircularProgressIndicator(
+                        value: loadingProgress.expectedTotalBytes != null
+                            ? loadingProgress.cumulativeBytesLoaded /
+                                (loadingProgress.expectedTotalBytes ?? 1)
+                            : null,
+                      ),
+                    );
+                  },
+                  errorBuilder: (context, error, stackTrace) =>
+                      const Icon(Icons.broken_image),
+                ),
               ),
             ),
             Positioned(
@@ -301,10 +315,9 @@ class _WelcomeSlide extends StatelessWidget {
                   gradient: LinearGradient(
                     begin: Alignment.bottomCenter,
                     end: Alignment.topCenter,
-                    colors: [
-                      backgroundColor.withOpacity(0.9),
-                      Colors.transparent
-                    ],
+                    colors: isDarkImage
+                        ? [backgroundColor.withOpacity(0.9), Colors.transparent]
+                        : [Colors.black.withOpacity(0.28), Colors.transparent],
                   ),
                 ),
               ),
